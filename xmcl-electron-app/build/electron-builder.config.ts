@@ -59,7 +59,7 @@ export const config = {
     ],
   },
   mac: {
-    icon: 'icons/dark.icns',
+    icon: 'icons/xs.png',
     darkModeSupport: true,
     target: [
       {
@@ -77,7 +77,7 @@ export const config = {
   win: {
     certificateFile: undefined as string | undefined,
     publisherName: 'CI010',
-    icon: 'icons/dark.ico',
+    icon: 'icons/xs.png',
     target: [
       {
         target: 'zip',
@@ -97,7 +97,7 @@ export const config = {
       StartupWMClass: 'xmcl',
     },
     category: 'Game',
-    icon: 'icons/dark.icns',
+    icon: 'icons/xs.png',
     artifactName: 'xmcl-${version}-${arch}.${ext}',
     target: [
       { target: 'deb', arch: ['x64', 'arm64'] },
