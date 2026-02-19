@@ -53,12 +53,18 @@ jobs:
           RELEASE: true 
         run: |
           pnpm run --prefix xmcl-electron-app build
+
+      - name: Copy Artifacts to Workspace
+        run: |
+          New-Item -ItemType Directory -Force -Path "${{ github.workspace }}\dist"
+          Copy-Item -Path "C:\XMCL\xmcl-electron-app\build\output\*.exe" -Destination "${{ github.workspace }}\dist"
+          Copy-Item -Path "C:\XMCL\xmcl-electron-app\build\output\*.zip" -Destination "${{ github.workspace }}\dist"
           
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-unsigned-build
-          path: C:\XMCL\xmcl-electron-app\build\output\*.exe
+          path: dist/*.exe
           
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -68,5 +74,5 @@ jobs:
           draft: true
           prerelease: true
           files: |
-            C:\XMCL\xmcl-electron-app\build\output\*.exe
-            C:\XMCL\xmcl-electron-app\build\output\*.zip
+            dist/*.exe
+            dist/*.zip
