@@ -52,6 +52,7 @@ jobs:
           # Ensure we build for production/release which triggers packing
           RELEASE: true 
         run: |
+          pnpm run --prefix xmcl-electron-app generate:icons
           pnpm run --prefix xmcl-electron-app build
 
       - name: Copy Artifacts to Workspace
