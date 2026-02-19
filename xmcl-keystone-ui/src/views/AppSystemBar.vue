@@ -25,6 +25,9 @@
         </v-icon>
       </div>
     </span>
+    <div class="flex items-center select-none px-3 font-bold text-lg" style="-webkit-app-region: drag">
+      XS Launcher
+    </div>
     <slot />
 
     <AppAudioPlayer

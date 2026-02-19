@@ -2,6 +2,7 @@
 import { download } from '@xmcl/file-transfer'
 import {
   AUTHORITY_MICROSOFT,
+  AUTHORITY_DEV,
   UserException,
   Users,
   UserServiceKey,
@@ -28,6 +29,7 @@ import { YggdrasilAccountSystem, kYggdrasilAccountSystem } from './accountSystem
 import { kUserTokenStorage, type UserTokenStorage } from './userTokenStore'
 import { getModrinthAccessToken, loginModrinth } from './utils/loginModrinth'
 import { ensureLauncherProfile, preprocessUserData } from './utils/userData'
+import { OfflineAccountSystem } from './accountSystems/OfflineAccountSystem'
 
 @ExposeServiceKey(UserServiceKey)
 export class UserService extends StatefulService<UserState> implements IUserService {
@@ -90,6 +92,7 @@ export class UserService extends StatefulService<UserState> implements IUserServ
     this.state.subscribeAll(() => {
       this.saveUserFile()
     })
+    this.registerAccountSystem(AUTHORITY_DEV, new OfflineAccountSystem())
   }
 
   async hasModrinthToken(): Promise<boolean> {

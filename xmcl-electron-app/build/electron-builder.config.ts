@@ -5,7 +5,7 @@ import type { Configuration } from 'electron-builder'
 dotenv()
 
 export const config = {
-  productName: 'X Minecraft Launcher',
+  productName: 'XS Launcher',
   appId: 'xmcl',
   directories: {
     output: 'build/output',
@@ -34,12 +34,12 @@ export const config = {
   }],
   artifactName: 'xmcl-${version}-${platform}-${arch}.${ext}',
   appx: {
-    displayName: 'X Minecraft Launcher',
+    displayName: 'XS Launcher',
     applicationId: 'xmcl',
     identityName: 'xmcl',
     backgroundColor: 'transparent',
     publisher: process.env.PUBLISHER,
-    publisherDisplayName: 'CI010',
+    publisherDisplayName: 'eksses',
     setBuildNumber: true,
   },
   dmg: {

@@ -38,6 +38,9 @@
     <AppModrinthLoginDialog />
     <InstanceLauncherPage />
     <AppSideBarGroupSettingDialog :default-color="defaultColor" />
+    <div class="footer flex justify-center items-center py-1 text-grey select-none" style="font-size: 10px; background-color: rgba(0, 0, 0, 0.2);">
+      XS Launcher | Developer: eksses
+    </div>
   </v-app>
   <v-app v-else class="h-full max-h-screen overflow-auto overflow-x-hidden" :class="{ 'dark': isDark }">
     <AppSystemBar no-user no-task />
