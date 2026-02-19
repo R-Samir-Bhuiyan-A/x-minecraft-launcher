@@ -20,7 +20,13 @@ jobs:
         with:
           version: 9.3.0
       
+      - name: Move to Short Path
+        run: |
+          New-Item -ItemType Directory -Force -Path "C:\XMCL"
+          Move-Item -Path "${{ github.workspace }}\*" -Destination "C:\XMCL"
+        
       - name: Fix node-gyp and Python
+        working-directory: C:\XMCL
         run: python3 -m pip install --break-system-packages --user packaging setuptools
       
       - name: Use Node.js 20
@@ -30,12 +36,15 @@ jobs:
           cache: "pnpm"
           
       - name: Install Dependencies
+        working-directory: C:\XMCL
         run: pnpm install
         
       - name: Build Renderer
+        working-directory: C:\XMCL
         run: pnpm run --prefix xmcl-keystone-ui build
         
       - name: Build Electron (Unsigned)
+        working-directory: C:\XMCL
         env:
           BUILD_NUMBER: ${{ github.run_number }}
           NODE_OPTIONS: --max-old-space-size=32768
@@ -50,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-unsigned-build
-          path: xmcl-electron-app/build/output/*.exe
+          path: C:\XMCL\xmcl-electron-app\build\output\*.exe
           
       - name: Create Release
         uses: softprops/action-gh-release@v1
@@ -60,5 +69,5 @@ jobs:
           draft: true
           prerelease: true
           files: |
-            xmcl-electron-app/build/output/*.exe
-            xmcl-electron-app/build/output/*.zip
+            C:\XMCL\xmcl-electron-app\build\output\*.exe
+            C:\XMCL\xmcl-electron-app\build\output\*.zip
