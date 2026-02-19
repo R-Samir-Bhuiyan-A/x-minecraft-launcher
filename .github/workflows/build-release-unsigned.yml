@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          # cache: "pnpm" - Disabled because we move files to C:\XMCL, breaking cache path validation
 
       - name: Move to Short Path
         run: |
