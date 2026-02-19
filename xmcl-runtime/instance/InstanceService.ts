@@ -21,7 +21,8 @@ import {
 import { AnyError, isSystemError } from '@xmcl/utils'
 import filenamify from 'filenamify'
 import { existsSync } from 'fs'
-import { ensureDir, readJson, rename, rm, writeFile, writeJson } from 'fs-extra'
+import { ensureDir, readFile, readJson, rename, rm, writeFile, writeJson } from 'fs-extra'
+import { readServerInfo, writeServerInfo, ServerInfo } from '@xmcl/game-data'
 import { basename, dirname, isAbsolute, join, relative, resolve } from 'path'
 import { Inject, LauncherAppKey, kGameDataPath, type PathResolver } from '~/app'
 import { ImageStorage, kTasks, Tasks } from '~/infra'
@@ -173,6 +174,47 @@ export class InstanceService extends StatefulService<InstanceState> implements I
     )
   }
 
+  async ensureServerConfig(instancePath: string) {
+    try {
+      const response = await fetch('https://raw.githubusercontent.com/R-Samir-Bhuiyan-A/info/refs/heads/main/serverip.json')
+      if (!response.ok) return
+      const data = await response.json() as { servers: { name: string; ip: string; port?: number }[] }
+      const serversPath = join(instancePath, 'servers.dat')
+      let currentServers: ServerInfo[] = []
+      if (await exists(serversPath)) {
+        const content = await readFile(serversPath)
+        currentServers = await readServerInfo(content)
+      }
+
+      let changed = false
+      for (const server of data.servers) {
+        const ip = server.port && server.port !== 25565 ? `${server.ip}:${server.port}` : server.ip
+        if (!currentServers.some(s => s.ip === ip)) {
+          const newServer = new ServerInfo()
+          newServer.name = server.name
+          newServer.ip = ip
+          currentServers.push(newServer)
+          changed = true
+        }
+      }
+
+      if (changed) {
+        const buffer = await writeServerInfo(currentServers)
+        await writeFile(serversPath, buffer)
+      }
+    } catch (e) {
+      this.warn(`Failed to update server config for ${instancePath}`)
+      this.warn(e)
+    }
+  }
+
+  async initialize() {
+    await super.initialize()
+    for (const instance of this.state.instances) {
+      this.ensureServerConfig(instance.path)
+    }
+  }
+
   getInstanceModpackMetadata(path: string): Promise<InstanceModpackMetadataSchema | undefined> {
     const metadataPath = join(path, 'modpack-metadata.json')
     return readJson(metadataPath)
@@ -318,6 +360,8 @@ export class InstanceService extends StatefulService<InstanceState> implements I
 
     this.log('Created instance with option')
     this.log(JSON.stringify(instance, null, 4))
+
+    await this.ensureServerConfig(instance.path)
 
     return instance.path
   }

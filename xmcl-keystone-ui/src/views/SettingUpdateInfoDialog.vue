@@ -93,7 +93,7 @@
       hover
 
       style="width: 100%"
-      to="https://github.com/voxelum/x-minecraft-launcher/releases"
+      to="https://github.com/R-Samir-Bhuiyan-A"
       target="browser"
       push
     >
@@ -144,7 +144,7 @@ const openOfficialWebsite = () => {
   window.open('https://xmcl.app', 'browser')
 }
 const openGithub = () => {
-  window.open('https://github.com/voxelum/x-minecraft-launcher/releases', 'browser')
+  window.open('https://github.com/R-Samir-Bhuiyan-A', 'browser')
 }
 </script>
 

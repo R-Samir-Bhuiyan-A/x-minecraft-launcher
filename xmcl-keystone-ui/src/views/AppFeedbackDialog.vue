@@ -73,34 +73,16 @@ const feedbackChannels = computed(() => [
     description: t('feedback.githubDescription'),
     icon: 'code',
     color: 'black',
-    link: 'https://github.com/Voxelum/x-minecraft-launcher/issues/new',
+    link: 'https://github.com/R-Samir-Bhuiyan-A',
     target: 'browser',
     buttonText: t('feedback.githubOpenIssue')
-  },
-  {
-    title: t('feedback.qq'),
-    description: t('feedback.qqDescription', { number: 858391850 }),
-    icon: 'chat',
-    color: 'blue',
-    link: 'https://jq.qq.com/?_wv=1027&k=5Py5zM1',
-    target: '_blank',
-    buttonText: t('feedback.qqEnterGroup')
-  },
-  {
-    title: t('feedback.kook'),
-    description: t('feedback.kookDescription'),
-    icon: 'chat',
-    color: 'purple',
-    link: 'https://kook.top/gqjSHh',
-    target: 'browser',
-    buttonText: t('feedback.qqEnterGroup')
   },
   {
     title: t('feedback.discord'),
     description: t('feedback.discordDescription'),
     icon: 'discord',
     color: 'indigo darken-2',
-    link: 'https://discord.gg/W5XVwYY7GQ',
+    link: 'https://discord.gg/2cTMdMTGY6',
     target: 'browser',
     buttonText: t('feedback.discordJoin')
   }
