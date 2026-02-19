@@ -1,6 +1,16 @@
 <template>
   <transition name="slide-y-reverse-transition">
-    <div v-if="activeTasks.length > 0" class="task-tray" @click="showTaskDialog">
+    <div
+      v-if="activeTasks.length > 0"
+      class="task-tray"
+      role="status"
+      aria-live="polite"
+      tabindex="0"
+      :aria-label="`${activeTasks.length} tasks running. ${currentTitle}${progressPercent >= 0 ? '. ' + Math.round(progressPercent) + '% complete' : ''}`"
+      @click="showTaskDialog"
+      @keydown.enter="showTaskDialog"
+      @keydown.space.prevent="showTaskDialog"
+    >
       <!-- Progress bar (slim, full width at top of tray) -->
       <div class="task-tray__progress-track">
         <div

@@ -17,6 +17,7 @@
         :x-large="!compact"
         :large="compact"
         class="px-12 text-lg transition-all btn-left"
+        :aria-label="`${text} (Ctrl+L)`"
         @click="onClick()"
         @mouseenter="emit('mouseenter')"
         @mouseleave="emit('mouseleave')"

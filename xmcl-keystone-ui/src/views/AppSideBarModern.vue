@@ -1,27 +1,31 @@
 <template>
-  <nav class="sidebar-modern">
+  <nav class="sidebar-modern" role="navigation" aria-label="Main navigation">
     <!-- Brand -->
     <div class="sidebar-brand moveable">
-      <div class="brand-mark">XS</div>
+      <div class="brand-mark" aria-hidden="true">XS</div>
     </div>
 
     <!-- Primary Nav -->
     <div class="sidebar-nav">
       <router-link
-        v-shared-tooltip="() => ({ text: t('home'), direction: 'right' })"
+        v-shared-tooltip="() => ({ text: t('home') + ' (Ctrl+1)', direction: 'right' })"
         to="/"
         exact
         class="sidebar-btn non-moveable"
+        aria-label="Home"
       >
-        <v-icon size="22">dashboard</v-icon>
+        <v-icon size="20">dashboard</v-icon>
+        <span class="sidebar-label">{{ t('home') }}</span>
       </router-link>
 
       <router-link
-        v-shared-tooltip="() => ({ text: t('store.name', 2), direction: 'right' })"
+        v-shared-tooltip="() => ({ text: t('store.name', 2) + ' (Ctrl+2)', direction: 'right' })"
         to="/store"
         class="sidebar-btn non-moveable"
+        aria-label="Store"
       >
-        <v-icon size="22">storefront</v-icon>
+        <v-icon size="20">storefront</v-icon>
+        <span class="sidebar-label">{{ t('store.name', 2) }}</span>
       </router-link>
 
       <div class="sidebar-divider" />
@@ -39,9 +43,15 @@
       <div
         v-shared-tooltip="() => ({ text: t('instances.add'), direction: 'right' })"
         class="sidebar-btn non-moveable"
+        role="button"
+        tabindex="0"
+        :aria-label="t('instances.add')"
         @click="showAddInstance()"
+        @keydown.enter="showAddInstance()"
+        @keydown.space.prevent="showAddInstance()"
       >
-        <v-icon size="20">add</v-icon>
+        <v-icon size="18">add</v-icon>
+        <span class="sidebar-label">{{ t('instances.add') }}</span>
       </div>
     </div>
 
@@ -51,30 +61,36 @@
     <!-- Bottom Nav -->
     <div class="sidebar-nav sidebar-nav--bottom">
       <router-link
-        v-shared-tooltip="() => ({ text: t('multiplayer.name'), direction: 'right' })"
+        v-shared-tooltip="() => ({ text: t('multiplayer.name') + ' (Ctrl+3)', direction: 'right' })"
         to="/multiplayer"
         class="sidebar-btn non-moveable"
+        aria-label="Multiplayer"
       >
-        <v-icon size="22">hub</v-icon>
+        <v-icon size="20">hub</v-icon>
+        <span class="sidebar-label">{{ t('multiplayer.name') }}</span>
       </router-link>
 
       <router-link
-        v-shared-tooltip="() => ({ text: t('myStuff'), direction: 'right' })"
+        v-shared-tooltip="() => ({ text: t('myStuff') + ' (Ctrl+4)', direction: 'right' })"
         to="/me"
         class="sidebar-btn non-moveable"
+        aria-label="Account"
       >
-        <v-icon size="22">person</v-icon>
+        <v-icon size="20">person</v-icon>
+        <span class="sidebar-label">{{ t('myStuff') }}</span>
       </router-link>
 
       <router-link
-        v-shared-tooltip="() => ({ text: t('setting.name', 2), direction: 'right' })"
+        v-shared-tooltip="() => ({ text: t('setting.name', 2) + ' (Ctrl+5)', direction: 'right' })"
         to="/setting"
         class="sidebar-btn non-moveable"
+        aria-label="Settings"
       >
         <v-badge right overlap :value="hasUpdate">
           <template #badge><span>!</span></template>
-          <v-icon size="22">settings</v-icon>
+          <v-icon size="20">settings</v-icon>
         </v-badge>
+        <span class="sidebar-label">{{ t('setting.name', 2) }}</span>
       </router-link>
     </div>
   </nav>
@@ -109,13 +125,13 @@ const topInstances = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 64px;
-  min-width: 64px;
+  width: 72px;
+  min-width: 72px;
   height: 100%;
   background: #0a0c0f;
   border-right: 1px solid rgba(255, 255, 255, 0.06);
   padding: 8px 0;
-  gap: 4px;
+  gap: 2px;
   z-index: 20;
   -webkit-app-region: drag;
   user-select: none;
@@ -126,7 +142,7 @@ const topInstances = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  width: 44px;
   height: 40px;
   margin-bottom: 8px;
   flex-shrink: 0;
@@ -151,9 +167,9 @@ const topInstances = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
   width: 100%;
-  padding: 0 10px;
+  padding: 0 8px;
 }
 
 .sidebar-nav--bottom {
@@ -163,22 +179,39 @@ const topInstances = computed(() => {
 /* Navigation button */
 .sidebar-btn {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 56px;
+  min-height: 48px;
+  padding: 6px 0 4px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 150ms ease, transform 120ms ease;
   text-decoration: none;
   color: inherit;
   position: relative;
   flex-shrink: 0;
+  gap: 2px;
 }
 
 .sidebar-btn .v-icon {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.40);
   transition: color 150ms ease;
+}
+
+/* Tiny label under icon */
+.sidebar-label {
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.30);
+  transition: color 150ms ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 52px;
+  text-align: center;
 }
 
 .sidebar-btn:hover {
@@ -187,6 +220,10 @@ const topInstances = computed(() => {
 
 .sidebar-btn:hover .v-icon {
   color: rgba(255, 255, 255, 0.85);
+}
+
+.sidebar-btn:hover .sidebar-label {
+  color: rgba(255, 255, 255, 0.60);
 }
 
 .sidebar-btn:active {
@@ -201,6 +238,16 @@ const topInstances = computed(() => {
 .sidebar-btn.router-link-active .v-icon {
   color: #00E5FF;
   filter: drop-shadow(0 0 6px rgba(0, 229, 255, 0.4));
+}
+
+.sidebar-btn.router-link-active .sidebar-label {
+  color: rgba(0, 229, 255, 0.75);
+}
+
+/* Focus ring for keyboard navigation */
+.sidebar-btn:focus-visible {
+  outline: 2px solid #00E5FF !important;
+  outline-offset: -2px;
 }
 
 /* Divider */

@@ -5,6 +5,8 @@
     :color="'transparent'"
     class="moveable flex w-full grow-0 gap-1 p-0 system-bar-modern"
     :style="{ 'backdrop-filter': `blur(${blurAppBar}px)` }"
+    role="banner"
+    aria-label="System bar"
   >
     <span
       v-if="back"
@@ -64,11 +66,11 @@
       @click="showFeedbackDialog"
     />
 
-    <span class="flex h-full shrink grow-0 p-0">
+    <span class="flex h-full shrink grow-0 p-0" role="group" aria-label="Window controls">
       <v-icon
         v-if="!hideWindowControl"
         v-ripple
-        tabindex="-1"
+        aria-label="Minimize"
         class="xy-0 non-moveable mr-0 flex cursor-pointer select-none items-center px-3 py-1 after:hidden! hover:bg-[rgba(255,255,255,0.08)]"
 
         small
@@ -77,7 +79,7 @@
       <v-icon
         v-if="!hideWindowControl"
         v-ripple
-        tabindex="-1"
+        aria-label="Maximize"
         class="non-moveable top-0 mr-0 flex cursor-pointer select-none items-center px-3 py-1 after:hidden! hover:bg-[rgba(255,255,255,0.08)]"
         small
         @click="maximize"
@@ -85,6 +87,7 @@
       <v-icon
         v-if="!hideWindowControl"
         v-ripple
+        aria-label="Close"
         class="non-moveable top-0 mr-0 flex cursor-pointer select-none items-center px-3 py-1 after:hidden! hover:bg-[rgb(209,12,12)]"
         small
         @click="close"

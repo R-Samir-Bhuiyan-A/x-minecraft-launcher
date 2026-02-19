@@ -1,0 +1,64 @@
+name: Build Unsigned Windows EXE
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. v0.0.1)'
+        required: true
+        default: 'v0.0.1'
+
+jobs:
+  build-unsigned:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.3.0
+      
+      - name: Fix node-gyp and Python
+        run: python3 -m pip install --break-system-packages --user packaging setuptools
+      
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+          
+      - name: Install Dependencies
+        run: pnpm install
+        
+      - name: Build Renderer
+        run: pnpm run --prefix xmcl-keystone-ui build
+        
+      - name: Build Electron (Unsigned)
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          NODE_OPTIONS: --max-old-space-size=32768
+          NODE_ENV: production
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+          # Ensure we build for production/release which triggers packing
+          RELEASE: true 
+        run: |
+          pnpm run --prefix xmcl-electron-app build
+          
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-unsigned-build
+          path: xmcl-electron-app/build/output/*.exe
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.version }}
+          name: Release ${{ inputs.version }}
+          draft: true
+          prerelease: true
+          files: |
+            xmcl-electron-app/build/output/*.exe
+            xmcl-electron-app/build/output/*.zip

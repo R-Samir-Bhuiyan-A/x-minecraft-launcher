@@ -87,6 +87,7 @@ export const config = {
         ],
       },
       'appx',
+      'nsis',
     ],
   },
   linux: {

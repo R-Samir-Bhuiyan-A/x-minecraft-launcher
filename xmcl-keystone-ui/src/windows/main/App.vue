@@ -1,5 +1,7 @@
 <template>
   <v-app v-if="!showSetup" class="h-full max-h-screen overflow-auto overflow-x-hidden" :class="{ 'dark': isDark }">
+    <!-- Skip to content (accessibility) -->
+    <a href="#main-content" class="skip-to-content">Skip to content</a>
     <AppBackground />
     <div class="w-full h-full absolute left-0 header-overlay" :style="{
       height: headerHeight + (compact ? 30 : 70) + 'px',
@@ -11,10 +13,8 @@
       class="relative flex h-full overflow-auto" 
       :class="layoutClasses"
     >
-      <!-- <AppSideBarClassic v-if="sidebarStyle === 'classic'" />
-      <AppSideBarNotch v-else /> -->
       <AppSideBarModern />
-      <main class="relative flex max-h-full flex-1 flex-col overflow-auto" :class="mainClasses">
+      <main id="main-content" class="relative flex max-h-full flex-1 flex-col overflow-auto" :class="mainClasses" tabindex="-1">
         <transition name="fade-transition" mode="out-in">
           <router-view class="z-2" />
         </transition>
@@ -187,6 +187,42 @@ const { isDark } = injection(kTheme)
 const { notify } = useNotifier()
 useDefaultErrorHandler(notify)
 useAuthProfileImportNotification(notify)
+
+// Global keyboard shortcuts for muscle-memory navigation
+const globalRouter = useRouter()
+const onGlobalKeydown = (e: KeyboardEvent) => {
+  // Only handle Ctrl+number shortcuts
+  if (!e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return
+
+  const shortcuts: Record<string, string> = {
+    '1': '/',
+    '2': '/store',
+    '3': '/multiplayer',
+    '4': '/me',
+    '5': '/setting',
+  }
+
+  if (shortcuts[e.key]) {
+    e.preventDefault()
+    globalRouter.push(shortcuts[e.key])
+    return
+  }
+
+  // Ctrl+L → Focus launch button
+  if (e.key === 'l' || e.key === 'L') {
+    e.preventDefault()
+    const launchBtn = document.getElementById('launch-button')
+    launchBtn?.focus()
+    return
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', onGlobalKeydown)
+})
+onUnmounted(() => {
+  document.removeEventListener('keydown', onGlobalKeydown)
+})
 </script>
 
 <style scoped>

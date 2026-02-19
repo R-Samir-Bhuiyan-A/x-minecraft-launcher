@@ -1,17 +1,17 @@
 <template>
   <div
     ref="scrollElement"
-    class="select-none"
+    class="select-none h-full flex flex-col"
   >
     <HomeCriticalError />
     <transition name="slide-y-reverse-transition" mode="out-in">
-      <div v-if="!isFocus" class="mx-3 relative" >
+      <div v-if="!isFocus" class="mx-3 relative flex-1 overflow-auto" >
         <Transition name="slide-y-reverse-transition">
           <div class="flex items-center justify-center gap-1 sticky top-40 z-3">
             <v-divider
               class="divider mx-0"
             />
-            <v-btn class="z-4" icon @click="isFocus = true">
+            <v-btn class="z-4" icon @click="isFocus = true" aria-label="Switch to focus mode">
               <v-icon>
                 keyboard_arrow_down
               </v-icon>
@@ -37,7 +37,7 @@
       </div>
       <HomeFocusFooter
         v-else
-        class="absolute bottom-0 left-0 pb-[26px]"
+        class="flex-1 flex items-end"
       />
     </transition>
     <!-- <ScreenshotGalleryDialog /> -->
