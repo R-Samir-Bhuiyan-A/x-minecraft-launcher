@@ -92,7 +92,7 @@ export class UserService extends StatefulService<UserState> implements IUserServ
     this.state.subscribeAll(() => {
       this.saveUserFile()
     })
-    this.registerAccountSystem(AUTHORITY_DEV, new OfflineAccountSystem())
+    this.registerAccountSystem(AUTHORITY_DEV, new OfflineAccountSystem(this.tokenStorage))
   }
 
   async hasModrinthToken(): Promise<boolean> {

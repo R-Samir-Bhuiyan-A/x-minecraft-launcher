@@ -2,11 +2,15 @@ import { AuthorityMetadata, GameProfileAndTexture, LoginOptions, RefreshUserOpti
 import { offline } from '@xmcl/user'
 import { UserAccountSystem } from './AccountSystem'
 
+import { UserTokenStorage } from '../userTokenStore'
+
 export class OfflineAccountSystem implements UserAccountSystem {
+  constructor(private storage: UserTokenStorage) { }
+
   async login(options: LoginOptions, abortSignal: AbortSignal): Promise<UserProfile> {
     const { username, properties } = options
     const auth = offline(username, properties?.uuid)
-    return {
+    const profile: UserProfile = {
       id: auth.selectedProfile.id,
       username,
       invalidated: false,
@@ -23,6 +27,8 @@ export class OfflineAccountSystem implements UserAccountSystem {
       expiredAt: Number.MAX_SAFE_INTEGER,
       authority: AUTHORITY_DEV,
     }
+    await this.storage.put(profile, auth.accessToken)
+    return profile
   }
 
   async refresh(userProfile: UserProfile, signal: AbortSignal, options: RefreshUserOptions): Promise<UserProfile> {
