@@ -20,13 +20,7 @@ jobs:
         with:
           version: 9.3.0
       
-      - name: Move to Short Path
-        run: |
-          New-Item -ItemType Directory -Force -Path "C:\XMCL"
-          Move-Item -Path "${{ github.workspace }}\*" -Destination "C:\XMCL"
-        
       - name: Fix node-gyp and Python
-        working-directory: C:\XMCL
         run: python3 -m pip install --break-system-packages --user packaging setuptools
       
       - name: Use Node.js 20
@@ -34,6 +28,11 @@ jobs:
         with:
           node-version: 20
           cache: "pnpm"
+
+      - name: Move to Short Path
+        run: |
+          New-Item -ItemType Directory -Force -Path "C:\XMCL"
+          Move-Item -Path "${{ github.workspace }}\*" -Destination "C:\XMCL"
           
       - name: Install Dependencies
         working-directory: C:\XMCL
