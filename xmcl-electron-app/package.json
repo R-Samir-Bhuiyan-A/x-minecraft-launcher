@@ -24,7 +24,8 @@
         "check": "tsc --noEmit --project tsconfig.json && tsc --noEmit --project preload/tsconfig.json",
         "dev": "cross-env NODE_ENV=development tsx dev.ts",
         "lint": "oxlint -c ./node_modules/@xmcl/oxlint-config/oxlintrc.json .",
-        "lint:fix": "npm run lint -- --fix"
+        "lint:fix": "npm run lint -- --fix",
+        "generate:icons": "tsx build/generate-icons.ts"
     },
     "devDependencies": {
         "@electron/rebuild": "^3.6.0",
