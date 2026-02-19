@@ -205,6 +205,15 @@ function onScroll() {
   max-height: 100vh;
 }
 
+.setting-sidebar .v-list-item--active {
+  color: var(--xs-accent, #00E5FF) !important;
+}
+
+.setting-sidebar .v-list-item--active::before {
+  background-color: var(--xs-accent, #00E5FF) !important;
+  opacity: 0.08 !important;
+}
+
 .scroll-container {
   scroll-behavior: smooth;
   position: relative;
@@ -218,10 +227,11 @@ function onScroll() {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(var(--v-theme-surface), 0.95);
-  backdrop-filter: blur(8px);
+  background: rgba(13, 15, 18, 0.92);
+  backdrop-filter: blur(12px);
   padding: 8px 0;
   margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .content-wrapper {

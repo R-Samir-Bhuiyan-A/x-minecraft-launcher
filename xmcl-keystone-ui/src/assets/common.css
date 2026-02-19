@@ -59,7 +59,141 @@ p {
 .dark {
   --icon-color: #cacaca;
   --icon-color-hovered: #fff;
+  background-color: #0D0F12 !important; /* True Dark */
+  color: #fff;
+  font-family: 'Inter', sans-serif !important;
+
+  /* === XS Design Tokens === */
+  --xs-bg-base: #0D0F12;
+  --xs-bg-surface: #13151a;
+  --xs-bg-elevated: #1a1c22;
+  --xs-bg-overlay: #1e2028;
+  --xs-border-subtle: rgba(255, 255, 255, 0.06);
+  --xs-border-hover: rgba(255, 255, 255, 0.10);
+  --xs-accent: #00E5FF;
+  --xs-accent-dim: #00B8D4;
+  --xs-text-primary: rgba(255, 255, 255, 0.92);
+  --xs-text-secondary: rgba(255, 255, 255, 0.55);
+  --xs-text-tertiary: rgba(255, 255, 255, 0.30);
+  --xs-radius-sm: 6px;
+  --xs-radius-md: 10px;
+  --xs-radius-lg: 14px;
 }
+
+.theme--dark.v-application {
+  background-color: #0D0F12 !important;
+  color: #fff;
+}
+
+/* === Global Vuetify Dark Overrides === */
+
+/* Cards */
+.theme--dark .v-card {
+  background-color: var(--xs-bg-surface, #13151a) !important;
+  border-color: var(--xs-border-subtle, rgba(255, 255, 255, 0.06)) !important;
+}
+
+/* Dialogs */
+.theme--dark .v-dialog > .v-card {
+  background-color: var(--xs-bg-elevated, #1a1c22) !important;
+}
+
+/* Lists */
+.theme--dark .v-list {
+  background-color: transparent !important;
+}
+
+.theme--dark .v-list-item--active::before {
+  opacity: 0.06 !important;
+}
+
+/* Navigation Drawer */
+.theme--dark .v-navigation-drawer {
+  background-color: var(--xs-bg-surface, #13151a) !important;
+}
+
+/* Tabs */
+.theme--dark .v-tabs {
+  background-color: transparent !important;
+}
+
+.theme--dark .v-tab--active {
+  color: var(--xs-accent, #00E5FF) !important;
+}
+
+.theme--dark .v-tabs-slider {
+  background-color: var(--xs-accent, #00E5FF) !important;
+}
+
+/* Text Fields */
+.theme--dark .v-text-field--outlined > .v-input__control > .v-input__slot {
+  border-color: var(--xs-border-subtle, rgba(255, 255, 255, 0.06)) !important;
+}
+
+.theme--dark .v-text-field--outlined.v-input--is-focused > .v-input__control > .v-input__slot {
+  border-color: var(--xs-accent, #00E5FF) !important;
+}
+
+/* Tooltips */
+.theme--dark .v-tooltip__content {
+  background: var(--xs-bg-overlay, #1e2028) !important;
+  border: 1px solid var(--xs-border-subtle) !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
+  padding: 6px 10px !important;
+}
+
+/* Menus */
+.theme--dark .v-menu__content {
+  background: var(--xs-bg-elevated, #1a1c22) !important;
+  border: 1px solid var(--xs-border-subtle) !important;
+  border-radius: var(--xs-radius-md, 10px) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Chips */
+.theme--dark .v-chip {
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+.theme--dark .v-chip--outlined {
+  border-color: var(--xs-border-subtle) !important;
+  background: transparent !important;
+}
+
+/* Subheaders */
+.theme--dark .v-subheader {
+  color: var(--xs-text-secondary) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* Progress bars */
+.theme--dark .v-progress-linear__background {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Scrollbars */
+.theme--dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.theme--dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Alerts */
+.theme--dark .v-alert {
+  border-radius: var(--xs-radius-md) !important;
+}
+
+/* Dividers */
+.theme--dark .v-divider {
+  border-color: var(--xs-border-subtle, rgba(255, 255, 255, 0.06)) !important;
+}
+
 
 html {
     --highlight-color: #fbc02d;
@@ -171,37 +305,33 @@ html ::-webkit-scrollbar {
 /* Platform specific css */
 
 .darwin .theme--dark.v-navigation-drawer {
-    background-color: rgba(66, 66, 66, 0.4);
+    background-color: rgba(13, 15, 18, 0.92);
 }
 
 .darwin .main-body {
-    background-color: unset;
-    border-color: unset;
+    background-color: rgba(13, 15, 18, 0.85);
+    border-color: transparent;
 }
 
 .win32 .loading-background {
-    background-color: unset;
+    background-color: #0D0F12;
 }
 
 .win32 .theme--dark.v-navigation-drawer {
-    background-color: rgba(66, 66, 66, 0.8);
-    /* background-color: rgba(33, 33, 33, 0.85); */
+    background-color: rgba(13, 15, 18, 0.95);
 }
 
 .win32 .main-body {
-    /* background-color: rgba(66, 66, 66, 0.68); */
-    background-color: rgba(33, 33, 33, 0.78);
-    /* background-color: rgba(33, 33, 33, 0.7); */
-    /* border-color: rgba(33, 33, 33, 0.7); */
+    background-color: rgba(13, 15, 18, 0.90);
 }
 
 .win32 .loading-background {
-    background-color: rgba(33, 33, 33, 0.78);
+    background-color: #0D0F12;
 }
 
 .main-body.solid {
-    background-color: #212121 !important;
-    border-color: #212121 !important;
+    background-color: #0D0F12 !important;
+    border-color: #0D0F12 !important;
 }
 
 /* Draggable card */

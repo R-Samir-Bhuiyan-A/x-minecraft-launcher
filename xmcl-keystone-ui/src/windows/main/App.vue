@@ -11,8 +11,9 @@
       class="relative flex h-full overflow-auto" 
       :class="layoutClasses"
     >
-      <AppSideBarClassic v-if="sidebarStyle === 'classic'" />
-      <AppSideBarNotch v-else />
+      <!-- <AppSideBarClassic v-if="sidebarStyle === 'classic'" />
+      <AppSideBarNotch v-else /> -->
+      <AppSideBarModern />
       <main class="relative flex max-h-full flex-1 flex-col overflow-auto" :class="mainClasses">
         <transition name="fade-transition" mode="out-in">
           <router-view class="z-2" />
@@ -38,8 +39,9 @@
     <AppModrinthLoginDialog />
     <InstanceLauncherPage />
     <AppSideBarGroupSettingDialog :default-color="defaultColor" />
-    <div class="footer flex justify-center items-center py-1 text-grey select-none" style="font-size: 10px; background-color: rgba(0, 0, 0, 0.2);">
-      XS Launcher | Developer: eksses
+    <AppTaskTray />
+    <div class="footer-brand">
+      XS Launcher
     </div>
   </v-app>
   <v-app v-else class="h-full max-h-screen overflow-auto overflow-x-hidden" :class="{ 'dark': isDark }">
@@ -85,9 +87,11 @@ import AppModrinthLoginDialog from '@/views/AppModrinthLoginDialog.vue'
 import AppNotifier from '@/views/AppNotifier.vue'
 import AppShareInstanceDialog from '@/views/AppShareInstanceDialog.vue'
 import AppSideBarClassic from '@/views/AppSideBarClassic.vue'
+import AppSideBarModern from '@/views/AppSideBarModern.vue'
 import AppSideBarNotch from '@/views/AppSideBarNotch.vue'
 import AppSystemBar from '@/views/AppSystemBar.vue'
 import AppTaskDialog from '@/views/AppTaskDialog.vue'
+import AppTaskTray from '@/views/AppTaskTray.vue'
 import InstanceLauncherPage from '@/views/InstanceLauncherPage.vue'
 import Setup from '@/views/Setup.vue'
 import { useLocalStorage, useMediaQuery, usePreferredColorScheme, usePreferredDark } from '@vueuse/core'
@@ -201,5 +205,18 @@ img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+}
+
+.footer-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.15);
+  background: #0a0c0f;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  user-select: none;
+  letter-spacing: 0.5px;
 }
 </style>

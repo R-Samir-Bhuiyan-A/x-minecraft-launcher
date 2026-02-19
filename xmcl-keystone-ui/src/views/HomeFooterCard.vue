@@ -486,7 +486,7 @@ transition: all 0.2s ease-in-out;
   position: absolute;
   bottom: -2px;
   height: 3px;
-  background: var(--highlight-color);
+  background: #00E5FF;
   border-radius: 2px;
   left: var(--underline-left);
   width: var(--underline-width);
@@ -496,6 +496,8 @@ transition: all 0.2s ease-in-out;
 .tabs-card {
   max-width: 450px;
   min-width: 450px;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
 .tabs-card>.icons, .tabs-card>.tabs-items {

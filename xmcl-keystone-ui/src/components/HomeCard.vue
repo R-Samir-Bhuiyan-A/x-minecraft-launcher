@@ -159,12 +159,37 @@ const highlighted = computed(() => globalDragover.value && dragover.value > 0)
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 13px;
 }
 
 .home-card {
-  /* blur behand */
   container-type: size;
   width: 100%;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 14px !important;
+}
+
+.home-card:hover {
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.home-card .v-card__title {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 12px 16px 8px;
+}
+
+.home-card .v-card__text {
+  padding: 8px 16px;
+}
+
+.home-card .v-card__actions {
+  padding: 8px 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .btn {

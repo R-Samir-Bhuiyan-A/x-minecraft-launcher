@@ -430,10 +430,11 @@ useTextFieldBehavior(filter, focused)
 <style scoped>
 .store-entry {
   user-select: none;
+  background: transparent !important;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -441,52 +442,46 @@ useTextFieldBehavior(filter, focused)
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.06);
   border-radius: 20px;
 }
 
 .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.theme--dark .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.theme--dark .custom-scrollbar:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 /* Elevated Search Input */
 .elevated-search :deep(.v-input__slot) {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease;
 }
 
 .elevated-search.v-input--is-focused :deep(.v-input__slot) {
-  box-shadow: 0 8px 30px rgba(0,0,0,0.2) !important;
-  transform: translateY(-1px);
-}
-
-.theme--dark .elevated-search :deep(.v-input__slot) {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
-}
-
-.theme--dark .elevated-search.v-input--is-focused :deep(.v-input__slot) {
-  box-shadow: 0 8px 30px rgba(var(--v-theme-primary), 0.2) !important;
+  border-color: rgba(0, 229, 255, 0.3) !important;
+  box-shadow: 0 0 0 1px rgba(0, 229, 255, 0.15) !important;
 }
 
 .filter-title {
-  @apply font-bold mb-3 text-xs uppercase text-gray-700 dark:text-gray-300 tracking-wider ml-1;
+  font-weight: 600;
+  margin-bottom: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.5px;
+  margin-left: 4px;
 }
 
 .filter-group {
-  @apply mb-2;
+  margin-bottom: 8px;
 }
 
 /* Source Button Styles */
 .source-button {
-  @apply text-gray-600 dark:text-gray-400;
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .source-button .cross-overlay {
@@ -494,7 +489,8 @@ useTextFieldBehavior(filter, focused)
 }
 
 .source-button.omitted {
-  @apply text-gray-400 dark:text-gray-500;
+  color: rgba(255, 255, 255, 0.2);
+  background: transparent;
 }
 
 .source-button.omitted .cross-overlay {
@@ -503,5 +499,9 @@ useTextFieldBehavior(filter, focused)
 
 .source-button:hover .cross-overlay {
   opacity: 1;
+}
+
+.source-button:hover {
+  border-color: rgba(255, 255, 255, 0.10);
 }
 </style>

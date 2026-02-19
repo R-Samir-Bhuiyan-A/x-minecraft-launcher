@@ -22,6 +22,9 @@ defineProps<{
 </script>
 <style scoped>
 .setting-card {
-  border-radius: 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  box-shadow: none !important;
 }
 </style>

@@ -22,15 +22,15 @@ defineProps<{
   .v-heading {
     display: inline-block;
     top: 0;
-    padding: 0 .25rem .5rem 0.1rem;
+    padding: 0 .25rem .75rem 0.1rem;
     z-index: 3;
   }
   .xtext-h5 {
-    font-size: 1.25rem !important;
+    font-size: 1.15rem !important;
     display: flex;
-    /* font-weight: 400;
-    line-height: 1.8rem; */
+    font-weight: 600;
     letter-spacing: normal !important;
     text-transform: none !important;
+    color: rgba(255, 255, 255, 0.92);
   }
 </style>

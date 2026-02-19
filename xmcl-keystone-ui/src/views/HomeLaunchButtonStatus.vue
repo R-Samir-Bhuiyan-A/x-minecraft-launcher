@@ -10,9 +10,9 @@
     </span>
     <v-progress-linear
       rounded
-      color="blue"
+      color="primary"
       :value="percentage"
-      height="6"
+      height="4"
     />
     <span class="whitespace-nowrap text-center text-sm font-bold">
       {{ getExpectedSize(Math.abs(progress)) + ' / ' + getExpectedSize(Math.abs(total)) }}

@@ -89,10 +89,21 @@ const isShown = ref(false)
 .btn-right {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  border-top-right-radius: 12px !important;
+  border-bottom-right-radius: 12px !important;
 }
 .btn-left {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  border-top-left-radius: 12px !important;
+  border-bottom-left-radius: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: none !important;
+}
+
+.btn-left:hover {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
 }
 
 @media (max-width: 850px) {

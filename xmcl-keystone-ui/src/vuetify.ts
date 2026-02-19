@@ -109,9 +109,22 @@ export const vuetify = new Vuetify({
   theme: {
     themes: {
       dark: {
-        primary: colors.green,
-        accent: colors.green.accent3,
+        primary: '#00E5FF', // Neon Teal
+        accent: '#00B8D4',
+        secondary: '#00E5FF',
+        success: '#4CAF50',
+        info: '#2196F3',
+        warning: '#FB8C00',
+        error: '#FF5252',
+        background: '#0D0F12', // True Dark
       },
+      light: { // Keeping light check for safety, though user asked for dark-first
+        primary: '#00E5FF',
+        accent: '#00B8D4',
+      },
+    },
+    options: {
+      customProperties: true, // Generate CSS variables
     },
   },
 })

@@ -59,4 +59,13 @@ defineProps({
   left: 0;
   top: 0;
 }
+
+.headline {
+  opacity: 0.4;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.headline .v-icon {
+  margin-bottom: 8px;
+}
 </style>

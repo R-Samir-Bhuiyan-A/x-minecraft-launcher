@@ -258,7 +258,8 @@ onUnmounted(() => {
 }
 
 .dark .market-right {
-  background-color: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(4px);
+  background-color: rgba(13, 15, 18, 0.6);
+  backdrop-filter: blur(8px);
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
 }
 </style>

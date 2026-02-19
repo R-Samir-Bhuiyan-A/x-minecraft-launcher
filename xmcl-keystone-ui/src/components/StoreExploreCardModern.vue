@@ -1,7 +1,8 @@
 <template>
   <div
     ref="el"
-    class="group relative bg-surface rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-white/5 flex flex-col h-full cursor-pointer z-1"
+    class="group relative rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-full cursor-pointer z-1"
+    style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);"
     @click="$emit('click')"
   >
     <!-- Image Area -->

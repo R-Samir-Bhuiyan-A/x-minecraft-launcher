@@ -3,7 +3,7 @@
     topbar
     window
     :color="'transparent'"
-    class="moveable flex w-full grow-0 gap-1 p-0"
+    class="moveable flex w-full grow-0 gap-1 p-0 system-bar-modern"
     :style="{ 'backdrop-filter': `blur(${blurAppBar}px)` }"
   >
     <span
@@ -25,7 +25,7 @@
         </v-icon>
       </div>
     </span>
-    <div class="flex items-center select-none px-3 font-bold text-lg" style="-webkit-app-region: drag">
+    <div class="flex items-center select-none px-3 font-semibold text-sm tracking-wide" style="-webkit-app-region: drag; color: rgba(255,255,255,0.4);">
       XS Launcher
     </div>
     <slot />
@@ -69,7 +69,7 @@
         v-if="!hideWindowControl"
         v-ripple
         tabindex="-1"
-        class="xy-0 non-moveable mr-0 flex cursor-pointer select-none items-center px-3 py-1 after:hidden! hover:bg-[rgba(255,255,255,0.5)]"
+        class="xy-0 non-moveable mr-0 flex cursor-pointer select-none items-center px-3 py-1 after:hidden! hover:bg-[rgba(255,255,255,0.08)]"
 
         small
         @click="minimize"
@@ -78,7 +78,7 @@
         v-if="!hideWindowControl"
         v-ripple
         tabindex="-1"
-        class="non-moveable top-0 mr-0 flex cursor-pointer select-none items-center px-3 py-1 after:hidden! hover:bg-[rgba(255,255,255,0.5)]"
+        class="non-moveable top-0 mr-0 flex cursor-pointer select-none items-center px-3 py-1 after:hidden! hover:bg-[rgba(255,255,255,0.08)]"
         small
         @click="maximize"
       >crop_din</v-icon>
