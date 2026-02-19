@@ -93,7 +93,7 @@
       hover
 
       style="width: 100%"
-      to="https://github.com/R-Samir-Bhuiyan-A"
+      :to="githubUrl"
       target="browser"
       push
     >
@@ -118,6 +118,8 @@ import { getLocalDateString } from '@/util/date'
 import { injection } from '@/util/inject'
 import { useDialog } from '../composables/dialog'
 
+import { useRemoteConfig } from '@/composables'
+
 const { isShown } = useDialog('update-info')
 const { t } = useI18n()
 const { render } = useMarkdown()
@@ -126,6 +128,7 @@ const {
   installing, downloadingUpdate, checkingUpdate, updateInfo, updateStatus,
   downloadUpdate, quitAndInstall,
 } = injection(kUpdateSettings)
+const { config } = useRemoteConfig()
 
 function renderUpdate() {
   const body = state.value?.updateInfo?.body ?? ''
@@ -139,12 +142,14 @@ const isAppImage = computed(() => env.value?.env === 'appimage')
 const hintRedownload = computed(() =>
   state.value?.updateInfo?.operation === 'manual',
 )
+const githubUrl = computed(() => config.value?.social.github || 'https://github.com/R-Samir-Bhuiyan-A')
+const websiteUrl = computed(() => config.value?.social.website || 'https://xmcl.app')
 
 const openOfficialWebsite = () => {
-  window.open('https://xmcl.app', 'browser')
+  window.open(websiteUrl.value, 'browser')
 }
 const openGithub = () => {
-  window.open('https://github.com/R-Samir-Bhuiyan-A', 'browser')
+  window.open(githubUrl.value, 'browser')
 }
 </script>
 

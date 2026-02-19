@@ -155,17 +155,20 @@ function openFolder() {
   }
 }
 
+import { useRemoteConfig } from '@/composables'
+
 const env = injection(kEnvironment)
 const useCNAI = computed(() => {
   return env.value?.gfw || env.value?.region === 'zh-CN'
 })
 
 const { state } = injection(kSettingsState)
+const { config } = useRemoteConfig()
 function getPrompt(raw?: boolean) {
   if (raw) {
     return data.errorLog
   }
-  return getCrashPrompt(useCNAI.value, data.log, data.errorLog, state.value?.locale || 'en-US')
+  return getCrashPrompt(useCNAI.value, data.log, data.errorLog, state.value?.locale || 'en-US', config.value?.social.discord)
 }
 </script>
 

@@ -64,8 +64,11 @@
 import FeedbackCard from '../components/FeedbackCard.vue'
 import { useDialog } from '../composables/dialog'
 
+import { useRemoteConfig } from '@/composables'
+
 const { hide, isShown } = useDialog('feedback')
 const { t } = useI18n()
+const { config } = useRemoteConfig()
 
 const feedbackChannels = computed(() => [
   {
@@ -73,7 +76,7 @@ const feedbackChannels = computed(() => [
     description: t('feedback.githubDescription'),
     icon: 'code',
     color: 'black',
-    link: 'https://github.com/R-Samir-Bhuiyan-A',
+    link: config.value?.social.github || 'https://github.com/R-Samir-Bhuiyan-A',
     target: 'browser',
     buttonText: t('feedback.githubOpenIssue')
   },
@@ -82,7 +85,7 @@ const feedbackChannels = computed(() => [
     description: t('feedback.discordDescription'),
     icon: 'discord',
     color: 'indigo darken-2',
-    link: 'https://discord.gg/2cTMdMTGY6',
+    link: config.value?.social.discord || 'https://discord.gg/2cTMdMTGY6',
     target: 'browser',
     buttonText: t('feedback.discordJoin')
   }

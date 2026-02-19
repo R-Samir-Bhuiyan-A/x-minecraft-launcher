@@ -32,7 +32,10 @@ import { ServerStatusService } from '@xmcl/runtime/serverStatus'
 import { ThemeService } from '@xmcl/runtime/theme'
 import { OfficialUserService, UserService } from '@xmcl/runtime/user'
 
+import { RemoteConfigService } from '@xmcl/runtime/service'
+
 export const definedServices = [
+  RemoteConfigService,
   VersionMetadataService,
   BaseService,
   AuthlibInjectorService,

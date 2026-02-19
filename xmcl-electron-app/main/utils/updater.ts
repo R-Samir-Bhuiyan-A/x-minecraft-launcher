@@ -10,7 +10,9 @@ import {
   DownloadUpdateTrackerEvents,
   ElectronUpdateOperation,
   ReleaseInfo,
+  RemoteConfigServiceKey,
 } from '@xmcl/runtime-api'
+import { RemoteConfigService } from '@xmcl/runtime/service/RemoteConfigService'
 import { DownloadUpdateOptions, LauncherAppUpdater } from '@xmcl/runtime/app'
 import { AnyError, isSystemError } from '@xmcl/utils'
 import { spawn } from 'child_process'
@@ -243,6 +245,30 @@ export class ElectronUpdater implements LauncherAppUpdater {
 
   async #getUpdateFromSelfHost(): Promise<ReleaseInfo> {
     const app = this.app
+    try {
+      const remoteConfigService = await this.app.registry.get(RemoteConfigService)
+      if (remoteConfigService) {
+        if (!remoteConfigService.state.app.latestVersion) {
+            await remoteConfigService.refresh()
+        }
+        const config = remoteConfigService.state
+        const latest = config.app.latestVersion
+        if (latest && !isSameVersion(latest, app.version)) {
+            this.logger.log(`Found update from remote config: ${latest}`)
+            return {
+            name: latest,
+            body: config.app.updateMessage || 'Update available',
+            date: new Date().toISOString(),
+            files: [],
+            newUpdate: true,
+            operation: ElectronUpdateOperation.Manual,
+            }
+        }
+      }
+    } catch (e) {
+      this.logger.warn(`Failed to check remote config for update: ${e}`)
+    }
+
     this.logger.log('Try get update from selfhost')
     const { allowPrerelease, locale } = await app.registry.get(kSettings)
     const queryString = `version=v${app.version}&prerelease=${allowPrerelease || false}`

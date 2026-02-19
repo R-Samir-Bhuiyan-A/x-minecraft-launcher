@@ -1,4 +1,4 @@
-export function getCrashPrompt(useCN: boolean, crash: string, log: string, localeCode: string) {
+export function getCrashPrompt(useCN: boolean, crash: string, log: string, localeCode: string, discordUrl: string = 'https://discord.gg/2cTMdMTGY6') {
   if (useCN) {
     return `你是Minecraft 崩溃报告（crash report）助手，帮助我分析crash造成的原因。你应当首先分析出游戏崩溃的主要原因（java，游戏原版library，mod，或者是其他原因）
 对于java问题或者游戏原版library，你应当直接提醒我。
@@ -24,7 +24,7 @@ For Java issues or missing vanilla game libraries, you should provide direct rem
 
 If the crash is caused by mods, you should analyze the logs to determine which mods may be responsible for the errors and notify me.
 
-If the specific cause cannot be determined, please inform me that I should contact the developers. Join discord: https://discord.gg/2cTMdMTGY6
+If the specific cause cannot be determined, please inform me that I should contact the developers. Join discord: ${discordUrl}
 
 I prefer you to response my with locale ${localeCode}.
 

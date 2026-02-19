@@ -1,5 +1,6 @@
 <template>
   <div >
+    <div v-if="config && config.features.sidebarStyle">
     <SettingCard class="mb-4" :title="t('setting.sidebarStyle')" icon="dashboard">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
         <div class="md:col-span-5 flex justify-center items-center">
@@ -111,6 +112,7 @@
         </div>
       </div>
     </SettingCard>
+    </div>
     <SettingCard class="mb-4" :title="t('setting.themeSettings')" icon="style">
       <AppearanceItems :theme="currentTheme" @save="onSave" />
 
@@ -216,11 +218,13 @@ import { kTheme } from '@/composables/theme'
 import { injection } from '@/util/inject'
 import { Ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n-bridge'
+import { useRemoteConfig } from '@/composables'
 
 const { t } = useI18n()
 const env = injection(kEnvironment)
 const { currentTheme, saveCurrentTheme, storedThemes, saveToStore, loadFromStore, deleteFromStore, refreshStoredThemes } = injection(kTheme)
 const { state } = injection(kSettingsState)
+const { config } = useRemoteConfig()
 
 const linuxTitlebar = computed({
   get: () => state.value?.linuxTitlebar ?? false,

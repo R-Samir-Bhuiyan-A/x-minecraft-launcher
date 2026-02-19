@@ -96,6 +96,8 @@ const props = defineProps<{
   refreshing: boolean
 }>()
 
+import { useRemoteConfig } from '@/composables'
+
 const { t } = useI18n()
 const content = ref('')
 const loading = ref(false)
@@ -130,11 +132,12 @@ const useCNAI = computed(() => {
 })
 
 const { state } = injection(kSettingsState)
+const { config } = useRemoteConfig()
 function getPrompt(raw?: boolean) {
   if (raw) {
     return content.value
   }
-  return getCrashPrompt(useCNAI.value, content.value, '', state.value?.locale || 'en-US')
+  return getCrashPrompt(useCNAI.value, content.value, '', state.value?.locale || 'en-US', config.value?.social.discord)
 }
 
 watch(() => props.visible, (v) => {
