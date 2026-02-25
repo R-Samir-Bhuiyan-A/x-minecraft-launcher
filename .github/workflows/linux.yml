@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repo with submodules
+      # 1. Checkout repository with submodules
       - uses: actions/checkout@v4
         with:
           submodules: recursive
@@ -29,11 +29,11 @@ jobs:
         with:
           node-version: 20
 
-      # 4. Install build dependencies (including bsdtar for Pacman)
+      # 4. Install build dependencies (including libarchive-tools instead of bsdtar)
       - name: Install Build Dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential libsecret-1-dev fakeroot dpkg-dev bsdtar
+          sudo apt install -y build-essential libsecret-1-dev fakeroot dpkg-dev libarchive-tools
 
       # 5. Install project dependencies
       - name: Install Project Dependencies
@@ -45,7 +45,7 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: pnpm run --prefix xmcl-keystone-ui build
 
-      # 7. Build Electron App (DEB, AppImage, Pacman)
+      # 7. Build Electron App (DEB, AppImage, Pacman) WITHOUT icon generation
       - name: Build Electron App
         working-directory: ${{ github.workspace }}
         env:
@@ -55,16 +55,16 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: false
           RELEASE: true
         run: |
-          # Directly build without icon generation
+          # Build directly, skip icons
           pnpm run --prefix xmcl-electron-app build -- --linux deb appimage pacman --x64 --arm64
 
-      # 8. Copy artifacts to workspace
+      # 8. Copy all build artifacts to workspace
       - name: Copy Build Artifacts
         run: |
           mkdir -p ${{ github.workspace }}/dist
           cp ${{ github.workspace }}/xmcl-electron-app/build/output/*.{deb,AppImage,pacman,tar.xz,rpm} ${{ github.workspace }}/dist/ || true
 
-      # 9. Upload artifacts
+      # 9. Upload artifacts to GitHub Actions
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
