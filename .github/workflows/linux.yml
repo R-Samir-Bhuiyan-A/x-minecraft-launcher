@@ -1,4 +1,4 @@
-name: Build Native Linux App
+name: Build Native Linux DEB
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
         default: 'v0.0.1'
 
 jobs:
-  build-linux:
+  build-linux-deb:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,24 +28,18 @@ jobs:
       - name: Install Build Dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential libsecret-1-dev
+          sudo apt install -y build-essential libsecret-1-dev fakeroot dpkg-dev
 
-      - name: Move to Short Path
-        run: |
-          mkdir -p ~/XMCL
-          mv * ~/XMCL
-        shell: bash
-
-      - name: Install Dependencies
-        working-directory: ~/XMCL
+      - name: Install Project Dependencies
+        working-directory: ${{ github.workspace }}
         run: pnpm install --no-frozen-lockfile
 
       - name: Build Renderer
-        working-directory: ~/XMCL
+        working-directory: ${{ github.workspace }}
         run: pnpm run --prefix xmcl-keystone-ui build
 
-      - name: Build Electron (Native Linux)
-        working-directory: ~/XMCL
+      - name: Build Electron App (DEB)
+        working-directory: ${{ github.workspace }}
         env:
           BUILD_NUMBER: ${{ github.run_number }}
           NODE_OPTIONS: --max-old-space-size=32768
@@ -54,22 +48,20 @@ jobs:
           RELEASE: true
         run: |
           pnpm run --prefix xmcl-electron-app generate:icons
-          pnpm run --prefix xmcl-electron-app build -- --linux --x64
+          pnpm run --prefix xmcl-electron-app build -- --linux deb --x64
 
-      - name: Copy Artifacts to Workspace
+      - name: Copy DEB Artifacts to Workspace
         run: |
           mkdir -p ${{ github.workspace }}/dist
-          cp ~/XMCL/xmcl-electron-app/build/output/*.AppImage ${{ github.workspace }}/dist/ || true
-          cp ~/XMCL/xmcl-electron-app/build/output/*.deb ${{ github.workspace }}/dist/ || true
-          cp ~/XMCL/xmcl-electron-app/build/output/*.tar.gz ${{ github.workspace }}/dist/ || true
+          cp ${{ github.workspace }}/xmcl-electron-app/build/output/*.deb ${{ github.workspace }}/dist/ || true
 
-      - name: Upload Artifacts
+      - name: Upload DEB Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: linux-build
-          path: dist/*
+          name: linux-deb-build
+          path: dist/*.deb
 
-      - name: Create Release
+      - name: Create Draft Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ inputs.version }}
@@ -77,6 +69,4 @@ jobs:
           draft: true
           prerelease: true
           files: |
-            dist/*.AppImage
             dist/*.deb
-            dist/*.tar.gz
