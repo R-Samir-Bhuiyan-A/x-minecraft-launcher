@@ -1,4 +1,4 @@
-name: Build Native Linux DEB
+name: Build Native Linux Packages
 
 on:
   workflow_dispatch:
@@ -9,36 +9,44 @@ on:
         default: 'v0.0.1'
 
 jobs:
-  build-linux-deb:
+  build-linux:
     runs-on: ubuntu-latest
+
     steps:
+      # 1. Checkout repo with submodules
       - uses: actions/checkout@v4
         with:
           submodules: recursive
 
+      # 2. Setup pnpm
       - uses: pnpm/action-setup@v4
         with:
           version: 9.3.0
 
+      # 3. Setup Node.js
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
+      # 4. Install build dependencies (including bsdtar for Pacman)
       - name: Install Build Dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential libsecret-1-dev fakeroot dpkg-dev
+          sudo apt install -y build-essential libsecret-1-dev fakeroot dpkg-dev bsdtar
 
+      # 5. Install project dependencies
       - name: Install Project Dependencies
         working-directory: ${{ github.workspace }}
         run: pnpm install --no-frozen-lockfile
 
+      # 6. Build Renderer
       - name: Build Renderer
         working-directory: ${{ github.workspace }}
         run: pnpm run --prefix xmcl-keystone-ui build
 
-      - name: Build Electron App (DEB)
+      # 7. Build Electron App (DEB, AppImage, Pacman)
+      - name: Build Electron App
         working-directory: ${{ github.workspace }}
         env:
           BUILD_NUMBER: ${{ github.run_number }}
@@ -47,20 +55,23 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: false
           RELEASE: true
         run: |
-          pnpm run --prefix xmcl-electron-app generate:icons
-          pnpm run --prefix xmcl-electron-app build -- --linux deb --x64
+          # Directly build without icon generation
+          pnpm run --prefix xmcl-electron-app build -- --linux deb appimage pacman --x64 --arm64
 
-      - name: Copy DEB Artifacts to Workspace
+      # 8. Copy artifacts to workspace
+      - name: Copy Build Artifacts
         run: |
           mkdir -p ${{ github.workspace }}/dist
-          cp ${{ github.workspace }}/xmcl-electron-app/build/output/*.deb ${{ github.workspace }}/dist/ || true
+          cp ${{ github.workspace }}/xmcl-electron-app/build/output/*.{deb,AppImage,pacman,tar.xz,rpm} ${{ github.workspace }}/dist/ || true
 
-      - name: Upload DEB Artifact
+      # 9. Upload artifacts
+      - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: linux-deb-build
-          path: dist/*.deb
+          name: linux-build
+          path: dist/*
 
+      # 10. Create Draft GitHub Release
       - name: Create Draft Release
         uses: softprops/action-gh-release@v1
         with:
@@ -69,4 +80,4 @@ jobs:
           draft: true
           prerelease: true
           files: |
-            dist/*.deb
+            dist/*
