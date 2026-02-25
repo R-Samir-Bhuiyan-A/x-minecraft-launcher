@@ -1,0 +1,82 @@
+name: Build Native Linux App
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. v0.0.1)'
+        required: true
+        default: 'v0.0.1'
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.3.0
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential libsecret-1-dev
+
+      - name: Move to Short Path
+        run: |
+          mkdir -p ~/XMCL
+          mv * ~/XMCL
+        shell: bash
+
+      - name: Install Dependencies
+        working-directory: ~/XMCL
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build Renderer
+        working-directory: ~/XMCL
+        run: pnpm run --prefix xmcl-keystone-ui build
+
+      - name: Build Electron (Native Linux)
+        working-directory: ~/XMCL
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          NODE_OPTIONS: --max-old-space-size=32768
+          NODE_ENV: production
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+          RELEASE: true
+        run: |
+          pnpm run --prefix xmcl-electron-app generate:icons
+          pnpm run --prefix xmcl-electron-app build -- --linux --x64
+
+      - name: Copy Artifacts to Workspace
+        run: |
+          mkdir -p ${{ github.workspace }}/dist
+          cp ~/XMCL/xmcl-electron-app/build/output/*.AppImage ${{ github.workspace }}/dist/ || true
+          cp ~/XMCL/xmcl-electron-app/build/output/*.deb ${{ github.workspace }}/dist/ || true
+          cp ~/XMCL/xmcl-electron-app/build/output/*.tar.gz ${{ github.workspace }}/dist/ || true
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build
+          path: dist/*
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ inputs.version }}
+          name: Release ${{ inputs.version }}
+          draft: true
+          prerelease: true
+          files: |
+            dist/*.AppImage
+            dist/*.deb
+            dist/*.tar.gz
